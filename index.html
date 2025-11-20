@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Große Belohnung? — Spoiler: Nein.</title>
+
+  <!-- Optional: Google Font (weißere Typo). Entfernen, wenn du keine externen Abfragen willst. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <meta name="description" content="Troll-Seite — keine Belohnung, nur ein zufälliger, humorvoller Satz.">
+
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --bg2: #071024;
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --accent: linear-gradient(90deg,#8be9fd,#7afaa1 60%, #b794f4);
+      --muted: rgba(255,255,255,0.65);
+      --glass-border: rgba(255,255,255,0.06);
+      --radius: 16px;
+      --transition: 280ms cubic-bezier(.2,.9,.3,1);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(800px 600px at 10% 10%, rgba(123,97,255,0.12), transparent 8%),
+                  radial-gradient(700px 500px at 90% 90%, rgba(122,231,195,0.06), transparent 12%),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color: #fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .container{
+      width:100%;
+      max-width:820px;
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:36px;
+      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px) saturate(120%);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .logo{
+      width:58px;
+      height:58px;
+      border-radius:12px;
+      background:var(--accent);
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      color:#041226;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.38), inset 0 -6px 18px rgba(255,255,255,0.08);
+      flex:0 0 58px;
+    }
+
+    h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:0.2px;
+      font-weight:700;
+      color: #e6eefc;
+    }
+    p.lead{
+      margin:4px 0 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    main{
+      margin-top:18px;
+      display:flex;
+      gap:20px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .card{
+      flex:1 1 420px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:28px;
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+      min-height:150px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+
+    .sentence{
+      font-size:20px;
+      line-height:1.35;
+      text-align:center;
+      color: #f7fbff;
+      padding:2px 8px;
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity var(--transition), transform var(--transition);
+      user-select: text;
+    }
+    .sentence.visible{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    .controls{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:stretch;
+      justify-content:center;
+      width:220px;
+      min-width:160px;
+    }
+    .btn{
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:#e9f3ff;
+      border:1px solid rgba(255,255,255,0.04);
+      padding:12px 14px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+    }
+    .btn:hover{ transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4) }
+    .btn.secondary{
+      background: transparent;
+      border: 1px dashed rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-weight:600;
+    }
+
+    .small{
+      margin-top:14px;
+      text-align:center;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    footer{
+      margin-top:20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .meta{
+      color:var(--muted);
+      font-size:13px;
+    }
+    a.repo{
+      color: #cfeeff;
+      text-decoration:none;
+      font-weight:600;
+      font-size:13px;
+      border:1px solid rgba(255,255,255,0.03);
+      padding:8px 10px;
+      border-radius:8px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    }
+    a.repo:hover{ opacity:0.96 }
+
+    /* Responsive */
+    @media (max-width:720px){
+      main{ flex-direction:column-reverse; align-items:stretch }
+      .controls{ width:100% }
+    }
+
+    /* little feedback toast for copy */
+    .toast{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:28px;
+      background: rgba(10,14,24,0.85);
+      color: #eafffb;
+      padding:10px 14px;
+      border-radius:999px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 220ms ease, bottom 220ms ease;
+    }
+    .toast.show{ opacity:1; bottom:48px; pointer-events:auto }
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-labelledby="main-title">
+    <header>
+      <div class="logo" aria-hidden="true">QR</div>
+      <div>
+        <h1 id="main-title">Scannst du den QR-Code für eine „große Belohnung“?</h1>
+        <p class="lead">Kleiner Spoiler: Die Belohnung ist… ein zufälliger, trolliger Satz.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="card" aria-live="polite">
+        <div id="sentence" class="sentence" tabindex="0" title="Drücke 'Noch ein Satz' für mehr.">
+          <!-- Satz kommt per JS -->
+        </div>
+      </section>
+
+      <aside class="controls" aria-label="Steuerung">
+        <button id="newBtn" class="btn" type="button" aria-controls="sentence" title="Nächster Satz">
+          🔁 Noch ein Satz
+        </button>
+
+        <button id="copyBtn" class="btn secondary" type="button" title="Satz kopieren">
+          📋 Kopieren
+        </button>
+
+        <div class="small">
+          Tipp: Der QR-Code hat dich hierhin geleitet. Es gibt wirklich keine Belohnung — nur Humor.
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div class="meta">Made for Streich-Spaß • Kein Tracking • Barrierearm</div>
+      <a class="repo" href="https://github.com/USERNAME/REPO" target="_blank" rel="noopener noreferrer">
+        Repo anzeigen
+      </a>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">Kopiert!</div>
+
+  <script>
+    // Deutsche Sätze — erweitern oder anpassen wie du möchtest.
+    const sentences = [
+      "Bro hat gerade eine Minute seiner Lebenszeit verschwendet, indem er nur einen sinnlosen QR-Code gescannt hat!",
+      "Diese Seite ist leer, wie du siehst! Hier gibt es keine Belohnungen, du verschwendest nur deine Zeit mit dem Lesen dieses Textes!",
+      "Glückwunsch — du hast ein digitales Nichts freigeschaltet. Bitte nicht enttäuscht sein.",
+      "Herzlichen Glückwunsch! Du hast erfolgreich nichts gewonnen.",
+      "Belohnung: 0 Punkte. Trostpreis: ein müdes Lächeln.",
+      "Du hast vielleicht keine Belohnung bekommen, aber jetzt hast du diesen Satz. Ist das nicht auch was?",
+      "Der QR-Code sagte: 'Vertrau mir.' Die Website sagte: 'Haha, nein.'",
+      "Wenn du auf der Suche nach Belohnungen bist — such besser im Kühlschrank.",
+      "Das Einzige, was hier wächst, ist die Enttäuschung. Bitte gießen Sie nicht.",
+      "Ein kleiner Klick für dich, ein großer Sinnverlust für die Menschheit.",
+      "Diese Seite ist wie ein Luftballon ohne Helium — hübsch, aber ohne Auftrieb.",
+      "Spoiler: Hier gibt's nur textuelle Ironie und null Münzen.",
+      "Du hast Zeit investiert. Wir haben Charakter gebildet. Deal?",
+      "Die Belohnung ist in Bearbeitung. Seit 1999. Bitte warten… immer noch warten.",
+      "404 Belohnung not found. Aber hey — du hast eine lustige Geschichte.",
+      "Herzlichen Glückwunsch zum erfolgreichen Ausführen von 'Du wurdest getrollt.exe'!",
+      "Dies ist der digitale Äquivalent eines Schulterklopfers — völlig bedeutungslos, aber nett gemeint.",
+      "Du hättest stattdessen Katzenvideos schauen können. Überlege es dir für das nächste Mal.",
+      "Erinnere dich: Nicht alles, was glänzt, ist Belohnung. Manchmal ist es nur ein QR-Code.",
+      "Wenn du laut genug jodelst, erscheint vielleicht eine Belohnung. (Nein, wirklich nicht.)",
+      "Zeit ist kostbar — und du hast sie hier verheizt. Danke für dein Vertrauen."
+    ];
+
+    const sentenceEl = document.getElementById('sentence');
+    const newBtn = document.getElementById('newBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+
+    // Zufälligen Satz wählen (nicht derselbe direkt hintereinander)
+    let lastIndex = -1;
+    function pickRandom(){
+      if(sentences.length === 0) return "Diese Seite ist leer.";
+      let idx;
+      if(sentences.length === 1) idx = 0;
+      else{
+        do {
+          idx = Math.floor(Math.random()*sentences.length);
+        } while(idx === lastIndex);
+      }
+      lastIndex = idx;
+      return sentences[idx];
+    }
+
+    // Satz anzeigen mit einer kleinen Fade-In-Animation
+    function showSentence(text){
+      sentenceEl.classList.remove('visible');
+      // Mikro Pause, damit die Transition wieder abgespielt wird
+      setTimeout(()=>{
+        sentenceEl.textContent = text;
+        sentenceEl.setAttribute('aria-label', text);
+        sentenceEl.classList.add('visible');
+      }, 80);
+    }
+
+    // Kopieren mit Feedback
+    async function copySentence(){
+      const text = sentenceEl.textContent.trim();
+      if(!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("Satz kopiert!");
+      } catch(e){
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast("Satz kopiert!"); } catch {}
+        ta.remove();
+      }
+    }
+
+    function showToast(msg, ms = 1500){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(()=> toast.classList.remove('show'), ms);
+    }
+
+    // Keyboard-Shortcuts: N = neuer Satz, C = kopieren
+    document.addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase() === 'n') { newBtn.click(); }
+      if(e.key.toLowerCase() === 'c') { copyBtn.click(); }
+    });
+
+    // Initial
+    document.addEventListener('DOMContentLoaded', ()=>{
+      showSentence(pickRandom());
+    });
+
+    newBtn.addEventListener('click', ()=> showSentence(pickRandom()));
+    copyBtn.addEventListener('click', copySentence);
+
+    // Accessibility: Focus auf Satz bei Tab
+    sentenceEl.addEventListener('focus', ()=> sentenceEl.classList.add('visible'));
+
+    // Optional: wenn die Seite per Hash "#surprise" geöffnet wird, zeigen wir eine spezielle Nachricht
+    if(location.hash === '#surprise'){
+      setTimeout(()=> showToast('Überraschung! Du hast den geheimen Hash entdeckt.'), 600);
+    }
+  </script>
+</body>
+</html>
