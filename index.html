@@ -8,7 +8,7 @@
   <!-- Montserrat (Black) -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
-  <!-- placeholder favicon (wird beim Laden mit profileImage ersetzt) -->
+  <!-- favicon placeholder (wird beim Laden mit profileImage ersetzt) -->
   <link id="favicon" rel="icon" href="" type="image/png">
 
   <style>
@@ -58,6 +58,31 @@
     .profile img{ width:100%; height:100%; object-fit:cover; display:block; }
     .title{ font-weight:900; font-size:20px; color:var(--white); letter-spacing:0.2px; text-shadow:0 6px 20px rgba(3,6,4,0.35); }
 
+    /* top-right square button in header */
+    .top-button{
+      margin-left:auto;
+      width:52px;
+      height:52px;
+      border-radius:10px;
+      overflow:hidden;
+      flex:0 0 52px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:
+        transform .35s cubic-bezier(.2,.9,.2,1),
+        box-shadow .35s,
+        background .35s;
+      text-decoration:none;
+      color:inherit;
+    }
+    .top-button img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .top-button:hover{ transform: translateY(-4px) scale(1.05); box-shadow: 0 18px 50px rgba(0,0,0,0.55); background:rgba(255,255,255,0.12); }
+    .top-button:active{ transform: scale(0.96); }
+
     /* canvas / glass */
     .canvas-wrap{ width:100%; max-width:var(--max-width); flex:1 1 auto; display:flex; align-items:center; justify-content:center; pointer-events:none; position:relative; }
     .canvas{ width:100%; height: calc(100% - 120px); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border-radius:18px; backdrop-filter: blur(16px) saturate(120%); -webkit-backdrop-filter: blur(16px) saturate(120%); border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 20px 60px rgba(2,8,6,0.45); padding:22px; display:flex; align-items:center; justify-content:center; overflow:visible; position:relative; pointer-events:auto; transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s; transform-style: preserve-3d; }
@@ -100,6 +125,7 @@
       .thumb{ width:68px; height:68px; }
       .card{ padding:10px; border-radius:10px; }
       .canvas{ padding:14px; border-radius:14px; height: calc(100% - 110px); }
+      .top-button{ width:46px; height:46px; border-radius:9px; flex:0 0 46px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -118,6 +144,11 @@
       <div>
         <div class="title" id="pageTitle">Sandros Verlinkungen</div>
       </div>
+
+      <!-- TOP-RIGHT SQUARE BUTTON -->
+      <a id="topButton" class="top-button" href="https://robloxsandro.github.io/anonymeFragen" target="_self" aria-label="Anonyme Fragen">
+        <img id="topButtonImg" src="" alt="Anonyme Fragen">
+      </a>
     </header>
 
     <main class="canvas-wrap" role="main">
@@ -137,6 +168,8 @@
      **************************************************************************/
     const profileImage = "https://bilderupload.org/image/1d3b03618-copy-0d0e0763-19ba-4b2f-9.jpg";
     const pageTitleText = "💚 Sandros Verlinkungen 💚";
+    // Bild für den top-right Button (ersetze mit deiner URL)
+    const topButtonImage = "https://bilderupload.org/image/bbbe05196-38b39cb4-169d-47eb-bdf4-3.png";
     const links = [
       { img:"https://bilderupload.org/image/eedc03862-copy-604bf30e-7261-4ed6-8.jpg", title:"Sandros YouTube Kanal", href:"https://youtube.com/@robloxsandro/" },
       { img:"https://bilderupload.org/image/b17404322-copy-6ec02e2c-b890-4a70-8.jpg", title:"Sandros Snapchat Account", href:"https://www.snapchat.com/add/robloxsandro?share_id=dTx_i9ByTE6-cq4kxfSetA&locale=de_DE" },
@@ -151,6 +184,7 @@
 
     /* ----------------- helper image safe-set ----------------- */
     function setImageSafe(imgEl, url){
+      if(!imgEl) return;
       if(!url){ imgEl.style.display='none'; return; }
       imgEl.src = url;
       imgEl.addEventListener('error', ()=> { imgEl.style.display='none'; }, {once:true});
@@ -171,10 +205,11 @@
       link.href = profileImage || '';
       document.head.appendChild(link);
     }
-    applyFaviconAndTitle();
 
     /* ----------------- build cards ----------------- */
     setImageSafe(document.getElementById('profileImage'), profileImage);
+    setImageSafe(document.getElementById('topButtonImg'), topButtonImage);
+
     const cardsEl = document.getElementById('cardsContainer');
 
     function createCard(item, index){
@@ -331,23 +366,17 @@
       if(!webhookURL) return;
       try {
         const now = new Date();
-        // German formatted date+time (e.g. 15.12.2025, 14:30:05)
         const ts = now.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'medium' });
         const content = `Neuer Besuch der Website am ${ts}! 🎉`;
-        // Try regular fetch first
         fetch(webhookURL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ content })
         }).then(res => {
-          // Discord often blocks CORS for browser clients; success unlikely from the client, but attempt anyway
           if(!res.ok) {
-            // try beacon fallback
             tryBeacon(content);
           }
         }).catch(err => {
-          // fetch failed (likely CORS). Try beacon fallback.
-          console.warn('Webhook fetch failed (likely CORS) — trying sendBeacon fallback.', err);
           tryBeacon(content);
         });
       } catch(e) {
@@ -357,7 +386,6 @@
     function tryBeacon(content){
       try {
         if(navigator.sendBeacon){
-          // sendBeacon doesn't allow custom headers — Discord may reject, but we still try
           const blob = new Blob([JSON.stringify({ content })], { type: 'application/json' });
           const ok = navigator.sendBeacon(webhookURL, blob);
           if(!ok) console.warn('sendBeacon returned false (webhook may not have been sent).');
@@ -373,15 +401,21 @@
     function init(){
       applyFaviconAndTitle();
       buildCards();
+      // set top-button image explicitly (fallback to profile if empty)
+      const topImgEl = document.getElementById('topButtonImg');
+      setImageSafe(topImgEl, topButtonImage || profileImage);
+
       // small delay to recalc scale after fonts/images
       setTimeout(adjustScale, 140);
       // send webhook (best-effort from client)
       sendDiscordWebhook();
     }
     window.addEventListener('load', init);
+
     // expose runtime API
     window.__SandrosLinks = {
       setProfile(url){ setImageSafe(document.getElementById('profileImage'), url); const l = document.getElementById('favicon'); if(l) l.href = url; },
+      setTopButton(url){ setImageSafe(document.getElementById('topButtonImg'), url); },
       setLinks(arr){ if(Array.isArray(arr)){ links.length=0; arr.forEach(a=>links.push(a)); buildCards(); } }
     };
   </script>
