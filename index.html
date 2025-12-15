@@ -2,357 +2,477 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Große Belohnung? — Spoiler: Nein.</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Sandros Verlinkungen</title>
 
-  <!-- Optional: Google Font (weißere Typo). Entfernen, wenn du keine externen Abfragen willst. -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <meta name="description" content="Troll-Seite — keine Belohnung, nur ein zufälliger, humorvoller Satz.">
+  <!-- Google Font: Nunito (runde, klare Schrift) - inkl. Black weight -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg1: #0f172a;
-      --bg2: #071024;
-      --card: rgba(255,255,255,0.06);
-      --glass: rgba(255,255,255,0.04);
-      --accent: linear-gradient(90deg,#8be9fd,#7afaa1 60%, #b794f4);
-      --muted: rgba(255,255,255,0.65);
-      --glass-border: rgba(255,255,255,0.06);
-      --radius: 16px;
-      --transition: 280ms cubic-bezier(.2,.9,.3,1);
+      --bg-start: #0f8a4a; /* helleres Grün */
+      --bg-end:   #063b22; /* dunkleres Grün */
+      --glass: rgba(255,255,255,0.06);
+      --glass-strong: rgba(255,255,255,0.10);
+      --accent: rgba(255,255,255,0.12);
+      --white: #ffffff;
+      --card-height: 84px;
+      --gutter: 16px;
     }
-
+    /* Reset & base */
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
+    html,body{
+      height:100%;
       margin:0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(800px 600px at 10% 10%, rgba(123,97,255,0.12), transparent 8%),
-                  radial-gradient(700px 500px at 90% 90%, rgba(122,231,195,0.06), transparent 12%),
-                  linear-gradient(180deg,var(--bg1),var(--bg2));
-      color: #fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
+      font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--white);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      overflow:hidden; /* KEIN SCROLLEN */
+      background: linear-gradient(45deg,var(--bg-start),var(--bg-end)) fixed;
+      background-size: 400% 400%;
+      animation: bgShift 18s ease-in-out infinite;
     }
 
-    .container{
-      width:100%;
-      max-width:820px;
-      border-radius:var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:36px;
-      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(8px) saturate(120%);
+    @keyframes bgShift {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
     }
 
-    header{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      margin-bottom:18px;
-    }
-    .logo{
-      width:58px;
-      height:58px;
-      border-radius:12px;
-      background:var(--accent);
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      color:#041226;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.38), inset 0 -6px 18px rgba(255,255,255,0.08);
-      flex:0 0 58px;
-    }
-
-    h1{
-      margin:0;
-      font-size:18px;
-      letter-spacing:0.2px;
-      font-weight:700;
-      color: #e6eefc;
-    }
-    p.lead{
-      margin:4px 0 0 0;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    main{
-      margin-top:18px;
-      display:flex;
-      gap:20px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    .card{
-      flex:1 1 420px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      padding:28px;
-      border: 1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
-      min-height:150px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-    }
-
-    .sentence{
-      font-size:20px;
-      line-height:1.35;
-      text-align:center;
-      color: #f7fbff;
-      padding:2px 8px;
-      opacity:0;
-      transform: translateY(6px);
-      transition: opacity var(--transition), transform var(--transition);
-      user-select: text;
-    }
-    .sentence.visible{
-      opacity:1;
-      transform: translateY(0);
-    }
-
-    .controls{
+    /* Page layout */
+    .page{
+      height:100dvh;
       display:flex;
       flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:18px;
+      padding:env(safe-area-inset-top) 20px 20px 20px;
+    }
+
+    /* Header */
+    .header{
+      width:100%;
+      max-width:1100px;
+      display:flex;
+      align-items:center;
       gap:12px;
+      padding:6px 12px;
+      margin-top:6px;
+      user-select:none;
+      transform:translateZ(0);
+    }
+    .profile{
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      overflow:hidden;
+      flex:0 0 56px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.06);
+      display:flex;align-items:center;justify-content:center;
+      transition:transform .4s cubic-bezier(.2,.9,.2,1), box-shadow .3s;
+      box-shadow: 0 6px 20px rgba(2,6,4,0.18);
+    }
+    .profile img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .title{
+      font-weight:900; /* "Black" weight wie du wolltest */
+      font-size:20px;
+      color:var(--white);
+      letter-spacing:0.2px;
+      text-shadow:0 6px 20px rgba(3,6,4,0.35);
+    }
+
+    /* Center glass panel */
+    .canvas-wrap{
+      width:100%;
+      max-width:1100px;
+      flex:1 1 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none; /* to allow cards handle events themselves */
+    }
+    .canvas{
+      width:100%;
+      height: calc(100% - 120px);
+      max-height: 860px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      border-radius:20px;
+      backdrop-filter: blur(10px) saturate(120%);
+      -webkit-backdrop-filter: blur(10px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 10px 40px rgba(2,6,4,0.35);
+      padding:24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:visible;
+      position:relative;
+      pointer-events:auto;
+      transition:transform .45s cubic-bezier(.2,.9,.2,1);
+    }
+
+    /* Decorative floating shapes */
+    .canvas::before, .canvas::after{
+      content:"";
+      position:absolute;
+      z-index:0;
+      border-radius:24px;
+      filter: blur(30px) saturate(120%);
+      opacity:0.18;
+      transform: translateZ(0);
+    }
+    .canvas::before{
+      width:260px;height:260px; right:-60px; top:-70px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+    }
+    .canvas::after{
+      width:160px;height:160px; left:-40px; bottom:-50px;
+      background:linear-gradient(45deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    }
+
+    /* Cards container & scaling behavior */
+    .cards-wrap{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px;
+      position:relative;
+    }
+    .cards{
+      width:100%;
+      max-width:920px;
+      display:flex;
+      flex-direction:column;
+      gap:var(--gutter);
       align-items:stretch;
-      justify-content:center;
-      width:220px;
-      min-width:160px;
+      transform-origin:top center;
+      will-change:transform;
+      padding:10px;
+      z-index:2;
     }
-    .btn{
-      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      color:#e9f3ff;
+
+    /* Each card */
+    .card{
+      height:var(--card-height);
+      display:flex;
+      gap:14px;
+      align-items:center;
+      border-radius:14px;
+      padding:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
       border:1px solid rgba(255,255,255,0.04);
-      padding:12px 14px;
-      border-radius:10px;
-      font-weight:600;
+      transition: transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s;
+      box-shadow: 0 6px 20px rgba(3,10,6,0.16);
       cursor:pointer;
-      transition: transform 160ms ease, box-shadow 160ms ease;
+      overflow:hidden;
+      position:relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card:hover{
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 18px 40px rgba(3,10,6,0.28);
+    }
+
+    .card .thumb{
+      width:72px;
+      height:72px;
+      flex:0 0 72px;
+      border-radius:10px;
+      overflow:hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.04);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .card .thumb img{
+      width:100%;height:100%;object-fit:cover;display:block;
+    }
+
+    .card .meta{
       display:flex;
-      gap:10px;
+      flex-direction:column;
+      justify-content:center;
+      gap:4px;
+      color:var(--white);
+    }
+    .card .meta .name{
+      font-weight:900; /* Black weight */
+      font-size:15px;
+      line-height:1;
+      text-shadow: 0 6px 20px rgba(3,6,4,0.28);
+    }
+    .card .meta .hint{
+      font-style:italic;
+      opacity:0.9;
+      font-weight:400;
+      color:rgba(255,255,255,0.86);
+      font-size:13px;
+    }
+
+    /* small arrow badge on right */
+    .card .goto{
+      margin-left:auto;
+      flex:0 0 46px;
+      display:flex;
       align-items:center;
       justify-content:center;
+      color:var(--white);
+      opacity:0.9;
+      transform:translateZ(0);
     }
-    .btn:hover{ transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4) }
-    .btn.secondary{
-      background: transparent;
-      border: 1px dashed rgba(255,255,255,0.06);
-      color: var(--muted);
-      font-weight:600;
-    }
+    .card .goto svg{width:20px;height:20px;opacity:0.95;filter:drop-shadow(0 4px 12px rgba(3,6,4,0.2))}
 
-    .small{
-      margin-top:14px;
-      text-align:center;
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    footer{
-      margin-top:20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .meta{
-      color:var(--muted);
-      font-size:13px;
-    }
-    a.repo{
-      color: #cfeeff;
-      text-decoration:none;
-      font-weight:600;
-      font-size:13px;
-      border:1px solid rgba(255,255,255,0.03);
-      padding:8px 10px;
-      border-radius:8px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-    }
-    a.repo:hover{ opacity:0.96 }
-
-    /* Responsive */
-    @media (max-width:720px){
-      main{ flex-direction:column-reverse; align-items:stretch }
-      .controls{ width:100% }
-    }
-
-    /* little feedback toast for copy */
-    .toast{
-      position:fixed;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:28px;
-      background: rgba(10,14,24,0.85);
-      color: #eafffb;
-      padding:10px 14px;
-      border-radius:999px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      font-size:13px;
+    /* subtle staggered animation */
+    .card[data-index]{
       opacity:0;
-      pointer-events:none;
-      transition: opacity 220ms ease, bottom 220ms ease;
+      transform: translateY(18px) scale(.995);
+      animation: cardIn .7s cubic-bezier(.2,.9,.2,1) forwards;
+      animation-delay: calc(0.07s * var(--i));
     }
-    .toast.show{ opacity:1; bottom:48px; pointer-events:auto }
+    @keyframes cardIn{
+      to{opacity:1; transform: translateY(0) scale(1)}
+    }
+
+    /* Mobile adjustments */
+    @media (max-width:640px){
+      :root{ --card-height: 78px; --gutter: 12px }
+      .profile{ width:48px; height:48px; border-radius:12px; }
+      .title{ font-size:18px; }
+      .card .thumb{ width:64px; height:64px; border-radius:10px; }
+      .card .meta .name{ font-size:14px; }
+      .canvas{ padding:16px; border-radius:18px; }
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce){
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    /* small helper for empty images */
+    .fallback{
+      width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.12);
+      background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      font-size:12px;
+    }
   </style>
 </head>
 <body>
-  <div class="container" role="main" aria-labelledby="main-title">
-    <header>
-      <div class="logo" aria-hidden="true">QR</div>
+  <div class="page">
+    <header class="header" role="banner" aria-label="Kopfbereich">
+      <div class="profile" id="profileWrap" title="Profilbild">
+        <!-- profile image inserted by script -->
+        <img id="profileImage" src="" alt="Profilbild" />
+      </div>
       <div>
-        <h1 id="main-title">Scannst du den QR-Code für eine „große Belohnung“?</h1>
-        <p class="lead">Kleiner Spoiler: Die Belohnung ist… ein zufälliger, trolliger Satz.</p>
+        <div class="title">Sandros Verlinkungen</div>
       </div>
     </header>
 
-    <main>
-      <section class="card" aria-live="polite">
-        <div id="sentence" class="sentence" tabindex="0" title="Drücke 'Noch ein Satz' für mehr.">
-          <!-- Satz kommt per JS -->
+    <main class="canvas-wrap" role="main">
+      <section class="canvas" aria-label="Verlinkungen">
+        <div class="cards-wrap">
+          <div class="cards" id="cardsContainer" aria-live="polite" aria-atomic="true">
+            <!-- Karten werden per Script befüllt -->
+          </div>
         </div>
       </section>
-
-      <aside class="controls" aria-label="Steuerung">
-        <button id="newBtn" class="btn" type="button" aria-controls="sentence" title="Nächster Satz">
-          🔁 Noch ein Satz
-        </button>
-
-        <button id="copyBtn" class="btn secondary" type="button" title="Satz kopieren">
-          📋 Kopieren
-        </button>
-
-        <div class="small">
-          Tipp: Der QR-Code hat dich hierhin geleitet. Es gibt wirklich keine Belohnung — nur Humor.
-        </div>
-      </aside>
     </main>
-
-    <footer>
-      <div class="meta">Made for Streich-Spaß • Kein Tracking • Barrierearm</div>
-      <a class="repo" href="https://github.com/USERNAME/REPO" target="_blank" rel="noopener noreferrer">
-        Repo anzeigen
-      </a>
-    </footer>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">Kopiert!</div>
-
   <script>
-    // Deutsche Sätze — erweitern oder anpassen wie du möchtest.
-    const sentences = [
-      "Bro hat gerade eine Minute seiner Lebenszeit verschwendet, indem er nur einen sinnlosen QR-Code gescannt hat!",
-      "Diese Seite ist leer, wie du siehst! Hier gibt es keine Belohnungen, du verschwendest nur deine Zeit mit dem Lesen dieses Textes!",
-      "Glückwunsch — du hast ein digitales Nichts freigeschaltet. Bitte nicht enttäuscht sein.",
-      "Herzlichen Glückwunsch! Du hast erfolgreich nichts gewonnen.",
-      "Belohnung: 0 Punkte. Trostpreis: ein müdes Lächeln.",
-      "Du hast vielleicht keine Belohnung bekommen, aber jetzt hast du diesen Satz. Ist das nicht auch was?",
-      "Der QR-Code sagte: 'Vertrau mir.' Die Website sagte: 'Haha, nein.'",
-      "Wenn du auf der Suche nach Belohnungen bist — such besser im Kühlschrank.",
-      "Das Einzige, was hier wächst, ist die Enttäuschung. Bitte gießen Sie nicht.",
-      "Ein kleiner Klick für dich, ein großer Sinnverlust für die Menschheit.",
-      "Diese Seite ist wie ein Luftballon ohne Helium — hübsch, aber ohne Auftrieb.",
-      "Spoiler: Hier gibt's nur textuelle Ironie und null Münzen.",
-      "Du hast Zeit investiert. Wir haben Charakter gebildet. Deal?",
-      "Die Belohnung ist in Bearbeitung. Seit 1999. Bitte warten… immer noch warten.",
-      "404 Belohnung not found. Aber hey — du hast eine lustige Geschichte.",
-      "Herzlichen Glückwunsch zum erfolgreichen Ausführen von 'Du wurdest getrollt.exe'!",
-      "Dies ist der digitale Äquivalent eines Schulterklopfers — völlig bedeutungslos, aber nett gemeint.",
-      "Du hättest stattdessen Katzenvideos schauen können. Überlege es dir für das nächste Mal.",
-      "Erinnere dich: Nicht alles, was glänzt, ist Belohnung. Manchmal ist es nur ein QR-Code.",
-      "Wenn du laut genug jodelst, erscheint vielleicht eine Belohnung. (Nein, wirklich nicht.)",
-      "Zeit ist kostbar — und du hast sie hier verheizt. Danke für dein Vertrauen."
+    /**************************************************************************
+     * Anpassbare Variablen:
+     * - profileImage : URL deines Profilbilds (oben links)
+     * - links : Array von Objekten -> { img: 'url', title: 'Titel', href: 'https://...' }
+     *
+     * Beispiel: drei Einträge sind schon eingefügt.
+     **************************************************************************/
+
+    const profileImage = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=example";
+    const links = [
+      {
+        img: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=example",
+        title: "Meine Spotify Playlists",
+        href: "https://open.spotify.com/"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=example",
+        title: "Portfolio & Projekte",
+        href: "https://github.com/"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1520975698516-6e6f9d8a5a56?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=example",
+        title: "Kontakt / Socials",
+        href: "https://twitter.com/"
+      }
     ];
 
-    const sentenceEl = document.getElementById('sentence');
-    const newBtn = document.getElementById('newBtn');
-    const copyBtn = document.getElementById('copyBtn');
-    const toast = document.getElementById('toast');
+    /* --------- DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING --------- */
 
-    // Zufälligen Satz wählen (nicht derselbe direkt hintereinander)
-    let lastIndex = -1;
-    function pickRandom(){
-      if(sentences.length === 0) return "Diese Seite ist leer.";
-      let idx;
-      if(sentences.length === 1) idx = 0;
-      else{
-        do {
-          idx = Math.floor(Math.random()*sentences.length);
-        } while(idx === lastIndex);
+    const profileImgEl = document.getElementById('profileImage');
+    const profileWrap = document.getElementById('profileWrap');
+    const cardsEl = document.getElementById('cardsContainer');
+
+    // Safe-set image (fallback)
+    function setImageSafe(imgEl, url){
+      if(!url){ imgEl.style.display='none'; return; }
+      imgEl.src = url;
+      imgEl.addEventListener('error', ()=> {
+        imgEl.style.display='none';
+      }, {once:true});
+    }
+
+    setImageSafe(profileImgEl, profileImage);
+
+    // Create cards from links array
+    function createCard(item, index){
+      const a = document.createElement('a');
+      a.href = item.href || '#';
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = 'card';
+      a.dataset.index = index;
+      a.style.setProperty('--i', index);
+
+      // thumb
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const im = document.createElement('img');
+      im.loading = 'lazy';
+      im.alt = item.title ? item.title + ' Bild' : 'Vorschau';
+      setImageSafe(im, item.img);
+      thumb.appendChild(im);
+
+      // meta
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = item.title || 'Titel';
+
+      const hint = document.createElement('div');
+      hint.className = 'hint';
+      hint.textContent = 'Klicke um zu öffnen';
+
+      meta.appendChild(name);
+      meta.appendChild(hint);
+
+      // goto arrow
+      const goto = document.createElement('div');
+      goto.className = 'goto';
+      goto.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>';
+
+      a.appendChild(thumb);
+      a.appendChild(meta);
+      a.appendChild(goto);
+
+      // click feedback ripple (subtle)
+      a.addEventListener('pointerdown', (e) => {
+        const ripple = document.createElement('span');
+        ripple.style.position='absolute';
+        ripple.style.left = (e.offsetX - 18) + 'px';
+        ripple.style.top = (e.offsetY - 18) + 'px';
+        ripple.style.width = ripple.style.height = '36px';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(255,255,255,0.08)';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.transform = 'scale(.2)';
+        ripple.style.opacity = '1';
+        ripple.style.transition = 'transform .5s ease, opacity .6s ease';
+        a.appendChild(ripple);
+        requestAnimationFrame(()=> {
+          ripple.style.transform = 'scale(3)';
+          ripple.style.opacity = '0';
+        });
+        setTimeout(()=> ripple.remove(), 600);
+      });
+
+      return a;
+    }
+
+    function buildCards(){
+      cardsEl.innerHTML = '';
+      links.forEach((it, i) => {
+        const c = createCard(it, i);
+        cardsEl.appendChild(c);
+      });
+      // small layout stabilization for animations
+      requestAnimationFrame(()=> adjustScale());
+    }
+
+    // dynamic scaling so everything fits in viewport (no scrolling)
+    function adjustScale(){
+      const canvas = document.querySelector('.canvas');
+      const cardsWrap = document.querySelector('.cards');
+      if(!canvas || !cardsWrap) return;
+      // reset
+      cardsWrap.style.transform = '';
+      const availableH = canvas.clientHeight - 20; // padding margin
+      const availableW = canvas.clientWidth - 20;
+      const bounding = cardsWrap.getBoundingClientRect();
+      const neededH = bounding.height;
+      const neededW = bounding.width;
+      let scale = 1;
+      if(neededH > availableH) scale = availableH / neededH;
+      if(neededW > availableW) scale = Math.min(scale, availableW / neededW);
+      // additional cap to avoid tiny text
+      scale = Math.max(0.6, Math.min(1, scale));
+      cardsWrap.style.transform = `scale(${scale})`;
+    }
+
+    // Recalculate on resize / orientation change
+    window.addEventListener('resize', adjustScale, {passive:true});
+    window.addEventListener('orientationchange', () => { setTimeout(adjustScale, 200) });
+
+    // Initialize
+    buildCards();
+
+    // subtle parallax on pointer move (desktop) for depth feel
+    (function addParallax(){
+      const canvas = document.querySelector('.canvas');
+      if(!canvas) return;
+      let mouseX = 0, mouseY = 0;
+      function onMove(e){
+        const rect = canvas.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) - 0.5;
+        const y = ((e.clientY - rect.top) / rect.height) - 0.5;
+        mouseX = x; mouseY = y;
+        canvas.style.transform = `translateZ(0) translate(${mouseX * 6}px, ${mouseY * 6}px)`;
       }
-      lastIndex = idx;
-      return sentences[idx];
-    }
+      // use pointermove when available
+      window.addEventListener('pointermove', onMove);
+      // reset when leave
+      canvas.addEventListener('pointerleave', ()=> canvas.style.transform = '');
+    })();
 
-    // Satz anzeigen mit einer kleinen Fade-In-Animation
-    function showSentence(text){
-      sentenceEl.classList.remove('visible');
-      // Mikro Pause, damit die Transition wieder abgespielt wird
-      setTimeout(()=>{
-        sentenceEl.textContent = text;
-        sentenceEl.setAttribute('aria-label', text);
-        sentenceEl.classList.add('visible');
-      }, 80);
-    }
+    // Accessibility: allow keyboard focusing on cards
+    (function addKeyboard(){
+      document.querySelectorAll('.card').forEach((c) => {
+        c.tabIndex = 0;
+        c.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            c.click();
+          }
+        });
+      });
+    })();
 
-    // Kopieren mit Feedback
-    async function copySentence(){
-      const text = sentenceEl.textContent.trim();
-      if(!text) return;
-      try {
-        await navigator.clipboard.writeText(text);
-        showToast("Satz kopiert!");
-      } catch(e){
-        // fallback
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); showToast("Satz kopiert!"); } catch {}
-        ta.remove();
-      }
-    }
+    // Re-apply keyboard behavior after cards built
+    // small delay because cards are created dynamically
+    setTimeout(()=> {
+      document.querySelectorAll('.card').forEach((c) => c.tabIndex = 0);
+      adjustScale();
+    }, 120);
 
-    function showToast(msg, ms = 1500){
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(window._toastTimeout);
-      window._toastTimeout = setTimeout(()=> toast.classList.remove('show'), ms);
-    }
+    // If user wants to change links at runtime, expose to window
+    window.__SandrosLinks = { setProfile(url){ setImageSafe(profileImgEl, url); }, setLinks(arr){ if(Array.isArray(arr)){ links.length=0; arr.forEach(a=>links.push(a)); buildCards(); } } };
 
-    // Keyboard-Shortcuts: N = neuer Satz, C = kopieren
-    document.addEventListener('keydown', (e)=>{
-      if(e.key.toLowerCase() === 'n') { newBtn.click(); }
-      if(e.key.toLowerCase() === 'c') { copyBtn.click(); }
-    });
-
-    // Initial
-    document.addEventListener('DOMContentLoaded', ()=>{
-      showSentence(pickRandom());
-    });
-
-    newBtn.addEventListener('click', ()=> showSentence(pickRandom()));
-    copyBtn.addEventListener('click', copySentence);
-
-    // Accessibility: Focus auf Satz bei Tab
-    sentenceEl.addEventListener('focus', ()=> sentenceEl.classList.add('visible'));
-
-    // Optional: wenn die Seite per Hash "#surprise" geöffnet wird, zeigen wir eine spezielle Nachricht
-    if(location.hash === '#surprise'){
-      setTimeout(()=> showToast('Überraschung! Du hast den geheimen Hash entdeckt.'), 600);
-    }
   </script>
 </body>
 </html>
