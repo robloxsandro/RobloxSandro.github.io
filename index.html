@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>💚 Sandros Verlinkungen 💚</title>
 
-  <!-- Montserrat (ähnlich zu deinem Wunsch: "Montserrat Black") -->
+  <!-- Montserrat (Black) -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- placeholder favicon (wird beim Laden mit profileImage ersetzt) -->
+  <link id="favicon" rel="icon" href="" type="image/png">
 
   <style>
     :root{
-      --bg-start: #0c6a39; /* helleres grün */
-      --bg-end:   #021a0f; /* deutlich dunkleres grün */
+      --bg-start: #0b5a2f;
+      --bg-end:   #02140b;
       --glass: rgba(255,255,255,0.05);
-      --glass-strong: rgba(255,255,255,0.12);
-      --accent: rgba(255,255,255,0.14);
       --white: #ffffff;
       --card-height: 86px;
       --gutter: 16px;
       --max-width: 1100px;
-      --ripple-duration: 340ms; /* visuelles Timing (0.34s für Sicherheit) */
+      --ripple-duration: 340ms;
     }
     *{box-sizing:border-box}
     html,body{
@@ -29,7 +30,7 @@
       color:var(--white);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      overflow:hidden; /* KEIN SCROLLEN */
+      overflow:hidden;
       background:
         radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent 8%),
         radial-gradient(800px 500px at 90% 90%, rgba(0,0,0,0.06), transparent 12%),
@@ -44,151 +45,29 @@
       100%{ background-position:0% 50% }
     }
 
-    /* PARTICLES LAYER (floating white soft dots) */
-    .particles{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:0;
-      overflow:hidden;
-      mix-blend-mode: screen;
-    }
-    .particle{
-      position:absolute;
-      background:rgba(255,255,255,0.08);
-      filter: blur(8px);
-      border-radius:50%;
-      will-change: transform, opacity;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      transform: translate3d(0,0,0);
-    }
+    /* background particles */
+    .particles{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; mix-blend-mode: screen; }
+    .particle{ position:absolute; background:rgba(255,255,255,0.08); filter: blur(8px); border-radius:50%; will-change: transform, opacity; animation-timing-function: linear; animation-iteration-count: infinite; transform: translate3d(0,0,0); }
 
     /* layout */
-    .page{
-      height:100dvh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:18px;
-      padding:env(safe-area-inset-top) 22px 22px 22px;
-      position:relative;
-      z-index:2;
-    }
+    .page{ height:100dvh; display:flex; flex-direction:column; align-items:center; gap:18px; padding:env(safe-area-inset-top) 22px 22px 22px; position:relative; z-index:2; }
 
-    /* Header */
-    .header{
-      width:100%;
-      max-width:var(--max-width);
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:6px 12px;
-      margin-top:8px;
-      user-select:none;
-    }
-    .profile{
-      width:56px;
-      height:56px;
-      border-radius:10px; /* leichte ecken wie Roblox Studio */
-      overflow:hidden;
-      flex:0 0 56px;
-      background:linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.06);
-      display:flex;align-items:center;justify-content:center;
-      transition:transform .36s cubic-bezier(.2,.9,.2,1);
-      box-shadow: 0 8px 24px rgba(2,6,4,0.22);
-    }
-    .profile img{width:100%;height:100%;object-fit:cover;display:block}
+    /* header */
+    .header{ width:100%; max-width:var(--max-width); display:flex; align-items:center; gap:14px; padding:6px 12px; margin-top:8px; user-select:none; }
+    .profile{ width:56px; height:56px; border-radius:10px; overflow:hidden; flex:0 0 56px; background:linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; transition:transform .36s cubic-bezier(.2,.9,.2,1); box-shadow: 0 8px 24px rgba(2,6,4,0.22); }
+    .profile img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .title{ font-weight:900; font-size:20px; color:var(--white); letter-spacing:0.2px; text-shadow:0 6px 20px rgba(3,6,4,0.35); }
 
-    .title{
-      font-weight:900; /* Montserrat Black */
-      font-size:20px;
-      color:var(--white);
-      letter-spacing:0.2px;
-      text-shadow:0 6px 20px rgba(3,6,4,0.35);
-    }
+    /* canvas / glass */
+    .canvas-wrap{ width:100%; max-width:var(--max-width); flex:1 1 auto; display:flex; align-items:center; justify-content:center; pointer-events:none; position:relative; }
+    .canvas{ width:100%; height: calc(100% - 120px); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border-radius:18px; backdrop-filter: blur(16px) saturate(120%); -webkit-backdrop-filter: blur(16px) saturate(120%); border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 20px 60px rgba(2,8,6,0.45); padding:22px; display:flex; align-items:center; justify-content:center; overflow:visible; position:relative; pointer-events:auto; transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s; transform-style: preserve-3d; }
+    .canvas::before{ content:""; position:absolute; inset:0; z-index:0; border-radius:18px; background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01) 20%, rgba(255,255,255,0.04) 60%, transparent 70%); pointer-events:none; mix-blend-mode: overlay; }
 
-    /* glass frame */
-    .canvas-wrap{
-      width:100%;
-      max-width:var(--max-width);
-      flex:1 1 auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-      position:relative;
-    }
-
-    .canvas{
-      width:100%;
-      height: calc(100% - 120px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border-radius:18px;
-      backdrop-filter: blur(16px) saturate(120%);
-      -webkit-backdrop-filter: blur(16px) saturate(120%);
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 20px 60px rgba(2,8,6,0.45);
-      padding:22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:visible;
-      position:relative;
-      pointer-events:auto;
-      transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s;
-      transform-style: preserve-3d;
-    }
-
-    /* glossy overlay for "liquid glass" sheen */
-    .canvas::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      z-index:0;
-      border-radius:18px;
-      background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01) 20%, rgba(255,255,255,0.04) 60%, transparent 70%);
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-
-    /* cards container */
+    /* CARDS: fix transform-origin so scaling happens from center */
     .cards-wrap{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:6px; position:relative; z-index:2; }
-    .cards{
-      width:100%;
-      max-width:920px;
-      display:flex;
-      flex-direction:column;
-      gap:var(--gutter);
-      align-items:stretch;
-      transform-origin:top center;
-      will-change:transform;
-      padding:8px;
-    }
+    .cards{ width:100%; max-width:920px; display:flex; flex-direction:column; gap:var(--gutter); align-items:stretch; transform-origin:center center; will-change:transform; padding:8px; }
 
-    /* card as anchor (no underlines, same color for visited) */
-    .card{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      border-radius:12px;
-      padding:12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-      border:1px solid rgba(255,255,255,0.04);
-      transition: transform .36s cubic-bezier(.2,.9,.2,1), box-shadow .36s, background .36s;
-      box-shadow: 0 8px 28px rgba(3,10,6,0.16);
-      cursor:pointer;
-      overflow:hidden;
-      position:relative;
-      -webkit-tap-highlight-color: transparent;
-      text-decoration: none;
-      color: inherit;
-      height: var(--card-height);
-      align-items:center;
-      transform-style: preserve-3d;
-    }
-
+    .card{ display:flex; gap:14px; align-items:center; border-radius:12px; padding:12px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)); border:1px solid rgba(255,255,255,0.04); transition: transform .36s cubic-bezier(.2,.9,.2,1), box-shadow .36s, background .36s; box-shadow: 0 8px 28px rgba(3,10,6,0.16); cursor:pointer; overflow:hidden; position:relative; -webkit-tap-highlight-color: transparent; text-decoration: none; color: inherit; height: var(--card-height); align-items:center; transform-style: preserve-3d; }
     .card:focus{ outline:none; box-shadow: 0 0 0 4px rgba(255,255,255,0.06), 0 12px 40px rgba(3,10,6,0.28); border-color: rgba(255,255,255,0.08) }
     .card:hover{ transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 60px rgba(3,10,6,0.32); }
 
@@ -202,38 +81,18 @@
     .goto{ margin-left:auto; flex:0 0 46px; display:flex; align-items:center; justify-content:center; color:var(--white); opacity:0.95; transform:translateZ(30px); }
     .card svg{ width:20px; height:20px; display:block; }
 
-    /* remove link underline & visited color */
     a { color:inherit; text-decoration:none; }
     a:visited { color:inherit; }
 
-    /* ripple element */
-    .ripple {
-      position:absolute;
-      border-radius:50%;
-      background: rgba(255,255,255,0.22);
-      pointer-events:none;
-      transform: scale(0);
-      opacity:1;
-      will-change: transform, opacity;
-    }
+    .ripple { position:absolute; border-radius:50%; background: rgba(255,255,255,0.22); pointer-events:none; transform: scale(0); opacity:1; will-change: transform, opacity; }
 
-    /* entrance animation with stagger using --i */
-    .card[data-index]{
-      opacity:0;
-      transform: translateY(24px) scale(.995);
-      animation: cardIn .68s cubic-bezier(.2,.9,.2,1) forwards;
-      animation-delay: calc(0.06s * var(--i));
-    }
-    @keyframes cardIn {
-      to{ opacity:1; transform: translateY(0) scale(1) }
-    }
+    .card[data-index]{ opacity:0; transform: translateY(24px) scale(.995); animation: cardIn .68s cubic-bezier(.2,.9,.2,1) forwards; animation-delay: calc(0.06s * var(--i)); }
+    @keyframes cardIn { to{ opacity:1; transform: translateY(0) scale(1) } }
 
-    /* subtle float animation for lively feeling */
     .card .thumb, .card .meta, .card .goto { transition: transform .45s cubic-bezier(.2,.9,.2,1); }
     .card:hover .thumb{ transform: translateY(-6px) translateZ(30px) }
     .card:hover .meta{ transform: translateY(-4px) translateZ(30px) }
 
-    /* responsiveness */
     @media (max-width:640px){
       :root{ --card-height:84px; --gutter:12px }
       .profile{ width:50px; height:50px; border-radius:10px; }
@@ -243,7 +102,6 @@
       .canvas{ padding:14px; border-radius:14px; height: calc(100% - 110px); }
     }
 
-    /* reduce motion */
     @media (prefers-reduced-motion: reduce){
       * { animation: none !important; transition: none !important; }
     }
@@ -258,7 +116,7 @@
         <img id="profileImage" src="" alt="Profilbild" />
       </div>
       <div>
-        <div class="title">Sandros Verlinkungen</div>
+        <div class="title" id="pageTitle">Sandros Verlinkungen</div>
       </div>
     </header>
 
@@ -275,9 +133,10 @@
 
   <script>
     /**************************************************************************
-     * Anpassbare Variablen:
+     * Anpassbare Variablen (bearbeite hier):
      **************************************************************************/
     const profileImage = "https://bilderupload.org/image/1d3b03618-copy-0d0e0763-19ba-4b2f-9.jpg";
+    const pageTitleText = "💚 Sandros Verlinkungen 💚";
     const links = [
       { img:"https://bilderupload.org/image/eedc03862-copy-604bf30e-7261-4ed6-8.jpg", title:"Sandros YouTube Kanal", href:"https://youtube.com/@robloxsandro/" },
       { img:"https://bilderupload.org/image/b17404322-copy-6ec02e2c-b890-4a70-8.jpg", title:"Sandros Snapchat Account", href:"https://www.snapchat.com/add/robloxsandro?share_id=dTx_i9ByTE6-cq4kxfSetA&locale=de_DE" },
@@ -287,6 +146,8 @@
       { img:"https://bilderupload.org/image/f0fc04640-copy-a58e02d8-b60b-4ed7-9.jpg", title:"Sandros WhatsApp Kanal", href:"https://whatsapp.com/channel/0029VbBM5SEF6sn2jzyAYn1G" }
     ];
 
+    // DISCORD WEBHOOK (wie gewünscht)
+    const webhookURL = "https://discord.com/api/webhooks/1450118718288822463/FHDWM8WIrx-tdqPK4D8kItfm5AoDp-SU41oMwXB4_M3pk8_cX975ArQszZIsBUwjRP3F";
 
     /* ----------------- helper image safe-set ----------------- */
     function setImageSafe(imgEl, url){
@@ -294,9 +155,26 @@
       imgEl.src = url;
       imgEl.addEventListener('error', ()=> { imgEl.style.display='none'; }, {once:true});
     }
-    setImageSafe(document.getElementById('profileImage'), profileImage);
+
+    /* ----------------- favicon & title update ----------------- */
+    function applyFaviconAndTitle(){
+      // set title
+      document.title = pageTitleText || document.title;
+      const titleEl = document.getElementById('pageTitle');
+      if(titleEl) titleEl.textContent = pageTitleText.replace(/💚/g,'').trim();
+
+      // set favicon (use provided profileImage)
+      const link = document.getElementById('favicon') || document.createElement('link');
+      link.id = 'favicon';
+      link.rel = 'icon';
+      link.type = 'image/png';
+      link.href = profileImage || '';
+      document.head.appendChild(link);
+    }
+    applyFaviconAndTitle();
 
     /* ----------------- build cards ----------------- */
+    setImageSafe(document.getElementById('profileImage'), profileImage);
     const cardsEl = document.getElementById('cardsContainer');
 
     function createCard(item, index){
@@ -326,52 +204,45 @@
 
       a.appendChild(thumb); a.appendChild(meta); a.appendChild(goto);
 
-      // intercept click to show centered ripple and delay navigation 0.3s
+      // click: centered ripple + 0.3s delay (respect Ctrl/Cmd/Middle)
       a.addEventListener('click', function(e){
-        // if user wants to open in new tab via Ctrl/Cmd/Middle click -> respect immediate default
-        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) {
-          return; // let browser handle it
-        }
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
         e.preventDefault();
 
-        // remove existing ripples for clarity
+        // remove old ripples
         const old = a.querySelector('.ripple'); if(old) old.remove();
 
-        // create ripple centered
         const rect = a.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height) * 1.6;
         const ripple = document.createElement('span');
         ripple.className = 'ripple';
         ripple.style.width = ripple.style.height = size + 'px';
-        // center
         ripple.style.left = (rect.width/2 - size/2) + 'px';
         ripple.style.top  = (rect.height/2 - size/2) + 'px';
-        ripple.style.background = 'radial-gradient(circle, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0) 100%)';
+        ripple.style.background = 'radial-gradient(circle, rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.22) 20%, rgba(255,255,255,0.08) 60%, rgba(255,255,255,0) 100%)';
         ripple.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--ripple-duration') || '340ms'} ease-out, opacity ${getComputedStyle(document.documentElement).getPropertyValue('--ripple-duration') || '340ms'} ease-out`;
         ripple.style.transform = 'scale(.08)';
         ripple.style.opacity = '1';
         a.appendChild(ripple);
 
-        // force reflow then animate scale & fade
+        // animate
         requestAnimationFrame(()=> {
           ripple.style.transform = 'scale(1)';
           ripple.style.opacity = '0';
         });
 
-        // after 300ms navigate (open)
+        // delay then open
         const delay = 300;
         setTimeout(()=> {
-          // open the link in new tab/window as the anchor requested
           try {
             window.open(a.href, '_blank', 'noopener');
           } catch(err){
-            // fallback
             window.location.href = a.href;
           }
         }, delay);
       }, {passive:false});
 
-      // keyboard accessibility (Enter/Space)
+      // keyboard support
       a.addEventListener('keydown', function(e){
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
@@ -388,18 +259,17 @@
         const c = createCard(it,i);
         cardsEl.appendChild(c);
       });
-      // small layout stabilization for animations
       requestAnimationFrame(()=> adjustScale());
-      // ensure tabIndex set
       setTimeout(()=> document.querySelectorAll('.card').forEach(c=>c.tabIndex=0),50);
     }
 
-    /* ----------------- dynamic scaling to avoid scrolling ----------------- */
+    /* ----------------- dynamic scaling (from center) ----------------- */
     function adjustScale(){
       const canvas = document.querySelector('.canvas');
       const cardsWrap = document.querySelector('.cards');
       if(!canvas || !cardsWrap) return;
-      cardsWrap.style.transform = '';
+      // explicitly reset to centered transform
+      cardsWrap.style.transform = 'translateY(0) scale(1)';
       const availableH = canvas.clientHeight - 16;
       const availableW = canvas.clientWidth - 16;
       const bounding = cardsWrap.getBoundingClientRect();
@@ -408,13 +278,14 @@
       let scale = 1;
       if(neededH > availableH) scale = availableH / neededH;
       if(neededW > availableW) scale = Math.min(scale, availableW / neededW);
-      scale = Math.max(0.62, Math.min(1, scale)); // cap to keep legible
-      cardsWrap.style.transform = `scale(${scale})`;
+      scale = Math.max(0.62, Math.min(1, scale));
+      // scale from center (CSS transform-origin is center center)
+      cardsWrap.style.transform = `translateY(0) scale(${scale})`;
     }
     window.addEventListener('resize', adjustScale, {passive:true});
     window.addEventListener('orientationchange', ()=> setTimeout(adjustScale,200));
 
-    /* ----------------- Parallax for depth ----------------- */
+    /* ----------------- parallax ----------------- */
     (function addParallax(){
       const canvas = document.querySelector('.canvas');
       if(!canvas) return;
@@ -427,26 +298,24 @@
       canvas.addEventListener('pointerleave', ()=> canvas.style.transform = '');
     })();
 
-    /* ----------------- particles (slow floating white blobs) ----------------- */
+    /* ----------------- particles ----------------- */
     (function createParticles(){
       const container = document.getElementById('particles');
-      const count = Math.min(32, Math.max(14, Math.floor((window.innerWidth*window.innerHeight)/90000))); // scale with viewport
+      const count = Math.min(32, Math.max(12, Math.floor((window.innerWidth*window.innerHeight)/90000)));
       for(let i=0;i<count;i++){
         const p = document.createElement('div'); p.className='particle';
-        const size = Math.random()*28 + 8; // 8..36
+        const size = Math.random()*28 + 8;
         p.style.width = p.style.height = size + 'px';
         p.style.left = (Math.random()*110 - 5) + '%';
         p.style.top  = (Math.random()*110 - 5) + '%';
         p.style.opacity = (Math.random()*0.18 + 0.04).toString();
-        // animation duration and path via CSS variables
-        const dur = Math.random()*40 + 40; // 40..80s
-        const ang = Math.random()*360;
-        p.style.animation = `float${i} ${dur}s linear infinite`;
-        // create keyframes dynamically for variety
+        const dur = Math.random()*40 + 40;
         const dx = (Math.random()*200 - 100);
         const dy = (Math.random()*200 - 100);
         const rotate = (Math.random()*40 - 20);
-        const keyframes = `@keyframes float${i} {
+        const keyframesName = `float${i}`;
+        p.style.animation = `${keyframesName} ${dur}s linear infinite`;
+        const keyframes = `@keyframes ${keyframesName} {
           0% { transform: translate3d(0px,0px,0) rotate(0deg) }
           50%{ transform: translate3d(${dx/2}px,${dy/2}px,0) rotate(${rotate}deg) }
           100%{ transform: translate3d(${dx}px,${dy}px,0) rotate(${rotate*1.2}deg) }
@@ -457,17 +326,64 @@
       }
     })();
 
-    /* ----------------- init ----------------- */
-    buildCards();
+    /* ----------------- webhook send (on page load) ----------------- */
+    function sendDiscordWebhook(){
+      if(!webhookURL) return;
+      try {
+        const now = new Date();
+        // German formatted date+time (e.g. 15.12.2025, 14:30:05)
+        const ts = now.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'medium' });
+        const content = `Neuer Besuch der Website am ${ts}! 🎉`;
+        // Try regular fetch first
+        fetch(webhookURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content })
+        }).then(res => {
+          // Discord often blocks CORS for browser clients; success unlikely from the client, but attempt anyway
+          if(!res.ok) {
+            // try beacon fallback
+            tryBeacon(content);
+          }
+        }).catch(err => {
+          // fetch failed (likely CORS). Try beacon fallback.
+          console.warn('Webhook fetch failed (likely CORS) — trying sendBeacon fallback.', err);
+          tryBeacon(content);
+        });
+      } catch(e) {
+        console.warn('Webhook send error', e);
+      }
+    }
+    function tryBeacon(content){
+      try {
+        if(navigator.sendBeacon){
+          // sendBeacon doesn't allow custom headers — Discord may reject, but we still try
+          const blob = new Blob([JSON.stringify({ content })], { type: 'application/json' });
+          const ok = navigator.sendBeacon(webhookURL, blob);
+          if(!ok) console.warn('sendBeacon returned false (webhook may not have been sent).');
+        } else {
+          console.warn('sendBeacon not available.');
+        }
+      } catch(e){
+        console.warn('Beacon attempt failed', e);
+      }
+    }
 
+    /* ----------------- init ----------------- */
+    function init(){
+      applyFaviconAndTitle();
+      buildCards();
+      // small delay to recalc scale after fonts/images
+      setTimeout(adjustScale, 140);
+      // send webhook (best-effort from client)
+      sendDiscordWebhook();
+    }
+    window.addEventListener('load', init);
     // expose runtime API
     window.__SandrosLinks = {
-      setProfile(url){ setImageSafe(document.getElementById('profileImage'), url); },
+      setProfile(url){ setImageSafe(document.getElementById('profileImage'), url); const l = document.getElementById('favicon'); if(l) l.href = url; },
       setLinks(arr){ if(Array.isArray(arr)){ links.length=0; arr.forEach(a=>links.push(a)); buildCards(); } }
     };
-
-    // small delay to recalc scale after fonts loaded / images render
-    window.addEventListener('load', ()=> setTimeout(adjustScale, 120));
   </script>
 </body>
 </html>
