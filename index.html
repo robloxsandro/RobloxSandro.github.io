@@ -179,8 +179,8 @@
       { img:"https://bilderupload.org/image/f0fc04640-copy-a58e02d8-b60b-4ed7-9.jpg", title:"Sandros WhatsApp Kanal", href:"https://whatsapp.com/channel/0029VbBM5SEF6sn2jzyAYn1G" }
     ];
 
-    // DISCORD WEBHOOK (wie gewünscht)
-    const webhookURL = "https://discord.com/api/webhooks/1450118718288822463/FHDWM8WIrx-tdqPK4D8kItfm5AoDp-SU41oMwXB4_M3pk8_cX975ArQszZIsBUwjRP3F";
+    // DISCORD WEBHOOK ENTFERNT (wie gewünscht)
+    //const webhookURL = "kein Webhook";
 
     /* ----------------- helper image safe-set ----------------- */
     function setImageSafe(imgEl, url){
@@ -361,41 +361,8 @@
       }
     })();
 
-    /* ----------------- webhook send (on page load) ----------------- */
-    function sendDiscordWebhook(){
-      if(!webhookURL) return;
-      try {
-        const now = new Date();
-        const ts = now.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'medium' });
-        const content = `Neuer Besuch der Website am ${ts}! 🎉`;
-        fetch(webhookURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content })
-        }).then(res => {
-          if(!res.ok) {
-            tryBeacon(content);
-          }
-        }).catch(err => {
-          tryBeacon(content);
-        });
-      } catch(e) {
-        console.warn('Webhook send error', e);
-      }
-    }
-    function tryBeacon(content){
-      try {
-        if(navigator.sendBeacon){
-          const blob = new Blob([JSON.stringify({ content })], { type: 'application/json' });
-          const ok = navigator.sendBeacon(webhookURL, blob);
-          if(!ok) console.warn('sendBeacon returned false (webhook may not have been sent).');
-        } else {
-          console.warn('sendBeacon not available.');
-        }
-      } catch(e){
-        console.warn('Beacon attempt failed', e);
-      }
-    }
+    /* ----------------- webhook send (on page load) ENTFERNT----------------- */
+  
 
     /* ----------------- init ----------------- */
     function init(){
